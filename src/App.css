@@ -1,0 +1,117 @@
+/* @keyframes flipUp {
+  0% {
+    width: 100%;
+  }
+  50% {
+    width: 0%;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+@keyframes flipDown {
+  0%,
+  100% {
+    width: 100%;
+  }
+  50% {
+    width: 0%;
+  }
+} */
+
+.tile {
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  border: 1px solid black;
+}
+
+.innerTile {
+  width: 100%;
+  height: 100%;
+}
+
+.innerTile.flipper {
+  width: 100%;
+}
+
+.innerTile.colorUp {
+  background-color: #002857;
+}
+
+.innerTile.colorDown {
+  background-color: #b3cde0;
+}
+
+/* .innerTile.flipUp {
+  -webkit-animation: flipUp 0.1s;
+  animation: flipUp 0.1s;
+}
+
+.innerTile.flipDown {
+  -webkit-animation: flipDown 0.1s;
+  animation: flipDown 0.1s;
+} */
+
+#container {
+  position: relative;
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  flex-direction: column;
+}
+
+#root {
+  height: 100%;
+  width: 100%;
+  display: flex;
+}
+
+#tileSurface {
+  height: 100%;
+  position: relative;
+  width: 45%;
+  border: 1px solid black;
+  z-index: 1;
+}
+
+#codeEditor {
+  height: 100%;
+  width: 55%;
+  border: 1px solid black;
+}
+
+#editor {
+  position: absolute;
+  width: 500px;
+  height: 400px;
+}
+
+#operationsContainer {
+  position: fixed;
+  z-index: 100;
+  padding: 20px;
+  bottom: 0;
+  flex-direction: column;
+  justify-content: center;
+  width: 300px;
+  background-color: beige;
+}
+
+#activeState {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin: auto;
+  margin-bottom: 10px;
+}
+
+#activeState.active {
+  background-color: #42f46b;
+}
+
+#activeState.inactive {
+  background-color: red;
+}
