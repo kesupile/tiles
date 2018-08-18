@@ -15,9 +15,9 @@ export default class Tile {
     delete this.displayTile;
   }
 
-  execute(event, ...rest) {
+  execute(event, hex, ...rest) {
     try {
-      (event._srcFn || (() => true)).call(this, event, ...rest);
+      return (event._srcFn || (() => true)).call(this, event, hex, ...rest);
     } catch (e) {
       console.log("....error..", e);
     }

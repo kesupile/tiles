@@ -58,7 +58,7 @@ export default class Controls extends Component {
           label="Tile count"
           control={
             <Slider
-              defaultValue={10}
+              defaultValue={this.props.items}
               min={2}
               max={100}
               onChange={this.handleCount}

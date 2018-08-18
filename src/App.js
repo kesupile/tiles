@@ -9,17 +9,30 @@ import "antd/dist/antd.css";
 class App extends Component {
   constructor() {
     super();
+
+    global.Tiles = {};
     this.codeEditor = React.createRef();
     this.onChange = debounce(this.onChange, 500);
     this.state = {
       active: false,
       up: true,
       flat: false,
-      items: 30,
-      src: `(function(e){
-Object.values(this.neighbours).forEach(n => {
-if(n && !e.includes(n)) n.flip(e)
+      items: 50,
+      src: `(function(e, c, reFlipped){
+const nextHex = c || 'purple'
+        Object.values(this.neighbours).forEach(n => {
+            if(n && !e.includes(n)) n.flip(e, nextHex, reFlipped)
+        })
+reFlipped = reFlipped ? reFlipped : [];
+!reFlipped.includes(this.coords) && e.delay(4, () => {
+Object.values(this.neighbours).forEach(
+n => {
+if (n && !reFlipped.includes(n.coords)) {
+reFlipped.push(n.coords)
+n.flip(e, 'black', reFlipped)
+}})
 })
+return nextHex
 })`,
       calculating: true
     };

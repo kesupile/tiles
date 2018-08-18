@@ -6,11 +6,11 @@ class TileComponent extends Component {
   constructor(props) {
     super(props);
 
-    this.props.tileObj.flip = (event, ...rest) => {
+    this.props.tileObj.flip = (event, hex, ...rest) => {
       event.addToQueue(() => {
         if (this.props.active) {
-          this.props.tileObj.execute(event, ...rest);
-          this.flip();
+          const nextHex = this.props.tileObj.execute(event, hex, ...rest);
+          this.flipTile(nextHex || hex);
         }
       }, this.props.coords);
     };
@@ -30,15 +30,23 @@ class TileComponent extends Component {
   }
 
   start = originalState => {
-    const fn = eval(this.props.src);
+    const fn = eval(global.src.value);
     const event = new Event(this.props.coords, fn);
+    event.setCurrentHex(global.Tiles[this.props.coords].style.backgroundColor);
     this.props.tileObj.flip(event);
-    event.startFrames();
+    event.startFrames(1);
+    // let rgb = 255;
+    // (function getSprites() {
+    //   Object.values(global.Tiles).forEach(tile => {
+    //     tile.style.backgroundColor = `rgb(${rgb},${rgb},${rgb})`;
+    //   });
+    //   rgb -= 17;
+    //   if (rgb > 0) setTimeout(getSprites, 17);
+    // })();
   };
 
-  flip = () => {
-    this._up = typeof this._up === "boolean" ? !this._up : !this.state.up;
-    this.setState({ up: !this.state.up, flat: !this.state.flat });
+  flipTile = hex => {
+    global.Tiles[this.props.coords].style.backgroundColor = hex;
   };
 
   render() {
@@ -47,7 +55,7 @@ class TileComponent extends Component {
         <div
           key={this.props.coords}
           className="tile"
-          onClick={() => this.start()}
+          onClick={this.start}
           style={{
             top: this.props.y,
             width: this.props.width,
@@ -56,6 +64,7 @@ class TileComponent extends Component {
           }}
         >
           <div
+            ref={n => (global.Tiles[this.props.coords] = n)}
             className={`innerTile ${
               typeof this.state.up == "boolean"
                 ? this.state.up ? "colorUp" : "colorDown"
