@@ -30,7 +30,7 @@ class TileComponent extends Component {
   }
 
   start = () => {
-    const fn = eval(global.src.value);
+    const fn = eval(global.Tiles.src);
     const event = new Event(this.props.coords, fn);
     event.setCurrentHex(
       global.Tiles.elements[this.props.coords].style.backgroundColor

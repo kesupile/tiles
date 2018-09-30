@@ -6,7 +6,6 @@ import PropTypes from "prop-types";
 class Surface extends Component {
   constructor(props) {
     super(props);
-    console.log("surface constructor");
     let x = props.width;
     let max = props.width * props.items;
     let y = 0;
@@ -29,7 +28,6 @@ class Surface extends Component {
 
   start = e => {
     const tileId = e.target.dataset.tileid;
-    console.log(e.target);
     return (
       tileId &&
       global.Tiles.tileComponents[tileId] &&

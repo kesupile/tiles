@@ -6,23 +6,29 @@ import debounce from "debounce";
 import Controls from "./Controls";
 import "antd/dist/antd.css";
 
-class App extends Component {
-  constructor() {
-    super();
+const src = `
+/** expanding box
 
-    global.Tiles = { elements: {}, tileComponents: {} };
-    this.codeEditor = React.createRef();
-    this.onChange = debounce(this.onChange, 500);
-    this.state = {
-      active: false,
-      up: true,
-      flat: false,
-      items: 100,
-      src: `(function(e, c, reFlipped){
-const nextHex = c || 'purple'
+(function(e, c){
+    const nextHex = c || 'coral'
+    const flipNeighbours = (hex) =>
         Object.values(this.neighbours).forEach(n => {
-            if(n && !e.includes(n)) n.flip(e, nextHex, reFlipped)
-        })
+            if(n && !e.includes(n)) n.flip(e, hex)
+        });
+    flipNeighbours(nextHex);
+    e.delay(3, () => flipNeighbours('black'))
+return c || nextHex
+})
+
+*/
+
+
+/** basic ripple effect */
+(function(e, c, reFlipped){
+const nextHex = c || 'purple'
+  Object.values(this.neighbours).forEach(n => {
+      if(n && !e.includes(n)) n.flip(e, nextHex, reFlipped)
+  });
 reFlipped = reFlipped ? reFlipped : [];
 !reFlipped.includes(this.coords) && e.delay(4, () => {
 Object.values(this.neighbours).forEach(
@@ -30,10 +36,24 @@ n => {
 if (n && !reFlipped.includes(n.coords)) {
 reFlipped.push(n.coords)
 n.flip(e, 'black', reFlipped)
-}})
-})
+}});
+});
 return nextHex
-})`,
+});`;
+
+class App extends Component {
+  constructor() {
+    super();
+
+    global.Tiles = { elements: {}, tileComponents: {}, src: src };
+    this.codeEditor = React.createRef();
+    this.onChange = debounce(this.onChange, 500);
+    this.state = {
+      active: false,
+      up: true,
+      flat: false,
+      items: 100,
+      src: src,
       calculating: true
     };
   }
@@ -54,6 +74,7 @@ return nextHex
 
   onChange = src => {
     this.setState({ src });
+    global.Tiles.src = src;
   };
 
   handleControlChange = obj => {
