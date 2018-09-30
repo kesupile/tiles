@@ -29,25 +29,23 @@ class TileComponent extends Component {
     this.props.tileObj.deleteDisplayTile();
   }
 
-  start = originalState => {
+  start = () => {
     const fn = eval(global.src.value);
     const event = new Event(this.props.coords, fn);
-    event.setCurrentHex(global.Tiles[this.props.coords].style.backgroundColor);
+    event.setCurrentHex(
+      global.Tiles.elements[this.props.coords].style.backgroundColor
+    );
     this.props.tileObj.flip(event);
     event.startFrames(1);
-    // let rgb = 255;
-    // (function getSprites() {
-    //   Object.values(global.Tiles).forEach(tile => {
-    //     tile.style.backgroundColor = `rgb(${rgb},${rgb},${rgb})`;
-    //   });
-    //   rgb -= 17;
-    //   if (rgb > 0) setTimeout(getSprites, 17);
-    // })();
   };
 
   flipTile = hex => {
-    global.Tiles[this.props.coords].style.backgroundColor = hex;
+    global.Tiles.elements[this.props.coords].style.backgroundColor = hex;
   };
+
+  componentDidMount() {
+    global.Tiles.tileComponents[this.props.coords] = this;
+  }
 
   render() {
     return (
@@ -55,7 +53,6 @@ class TileComponent extends Component {
         <div
           key={this.props.coords}
           className="tile"
-          onClick={this.start}
           style={{
             top: this.props.y,
             width: this.props.width,
@@ -64,12 +61,13 @@ class TileComponent extends Component {
           }}
         >
           <div
-            ref={n => (global.Tiles[this.props.coords] = n)}
+            ref={n => (global.Tiles.elements[this.props.coords] = n)}
             className={`innerTile ${
-              typeof this.state.up == "boolean"
+              typeof this.state.up === "boolean"
                 ? this.state.up ? "colorUp" : "colorDown"
                 : ""
             }`}
+            data-tileid={this.props.coords}
           />
         </div>
       </React.Fragment>

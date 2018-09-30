@@ -10,14 +10,14 @@ class App extends Component {
   constructor() {
     super();
 
-    global.Tiles = {};
+    global.Tiles = { elements: {}, tileComponents: {} };
     this.codeEditor = React.createRef();
     this.onChange = debounce(this.onChange, 500);
     this.state = {
       active: false,
       up: true,
       flat: false,
-      items: 50,
+      items: 100,
       src: `(function(e, c, reFlipped){
 const nextHex = c || 'purple'
         Object.values(this.neighbours).forEach(n => {

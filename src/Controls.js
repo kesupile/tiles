@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Slider } from "antd";
 import debounce from "debounce";
 
-var Control = ({ label, control }) => {
+let Control = ({ label, control }) => {
   return (
     <div className="control-item">
       <div className="control-label">{label}:</div>

@@ -27,13 +27,23 @@ class Surface extends Component {
     };
   }
 
+  start = e => {
+    const tileId = e.target.dataset.tileid;
+    console.log(e.target);
+    return (
+      tileId &&
+      global.Tiles.tileComponents[tileId] &&
+      global.Tiles.tileComponents[tileId].start()
+    );
+  };
+
   render() {
     return (
-      <div id="TilesContainer">
+      <div id="TilesContainer" onClick={this.start}>
         {Object.keys(this.tiles).map((xy, i) => {
-          var w = this.props.width;
-          var [x, y] = xy.split(",").map(Number);
-          var neighbours = {
+          let w = this.props.width;
+          let [x, y] = xy.split(",").map(Number);
+          let neighbours = {
             "x-1,y-1": this.tiles[[x - w, y - w].join(",")],
             "x,y-1": this.tiles[[x, y - w].join(",")],
             "x+1,y-1": this.tiles[[x + w, y - w].join(",")],

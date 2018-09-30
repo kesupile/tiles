@@ -1,6 +1,6 @@
 export default class Event {
   constructor(triggerCoords, srcFn) {
-    this.flipped = [triggerCoords];
+    this.flipped = { [triggerCoords]: true };
     this._srcFn = srcFn;
     this.queue = [];
     this.nextQueue = [];
@@ -9,13 +9,11 @@ export default class Event {
 
   addToQueue = (fn, coords) => {
     this.nextQueue.push(fn);
-    this.flipped.push(coords);
+    this.flipped[coords] = true;
   };
 
   includes = coords => {
-    return this.flipped.includes(
-      typeof coords == "object" ? coords.coords : coords
-    );
+    return !!this.flipped[typeof coords === "object" ? coords.coords : coords];
   };
 
   startFrames = n => {
@@ -52,7 +50,7 @@ export default class Event {
     this.queue = this.nextQueue;
     this.nextQueue = [];
     let fn = this.queue.shift();
-    while (typeof fn == "function") {
+    while (typeof fn === "function") {
       fn();
       fn = this.queue.shift();
     }
@@ -60,7 +58,7 @@ export default class Event {
     // handle delayed frames next
     const delayedQueue = this.delayedFrameCallbacks[n];
     let delayedFn = delayedQueue && delayedQueue.shift();
-    while (typeof delayedFn == "function") {
+    while (typeof delayedFn === "function") {
       delayedFn();
       delayedFn = delayedQueue.shift();
     }
