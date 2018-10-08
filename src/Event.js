@@ -18,7 +18,7 @@ export default class Event {
 
   startFrames = n => {
     this.frame = n;
-    setTimeout(() => this.onNextFrame(n), 17);
+    setTimeout(this.onNextFrame, 17, n);
   };
 
   endFrames = () => {
@@ -46,7 +46,7 @@ export default class Event {
     )
       return;
 
-    // handle queue first
+    // handle ordinary queue first
     this.queue = this.nextQueue;
     this.nextQueue = [];
     let fn = this.queue.shift();

@@ -6,6 +6,7 @@ import debounce from "debounce";
 import Controls from "./Controls";
 import "antd/dist/antd.css";
 
+// default patterns
 const src = `
 /** expanding box
 
@@ -45,15 +46,13 @@ class App extends Component {
   constructor() {
     super();
 
-    global.Tiles = { elements: {}, tileComponents: {}, src: src };
-    this.codeEditor = React.createRef();
+    global.Tiles = { elements: {}, tileComponents: {}, src };
     this.onChange = debounce(this.onChange, 500);
     this.state = {
       active: false,
       up: true,
       flat: false,
       items: 100,
-      src: src,
       calculating: true
     };
   }
@@ -73,7 +72,6 @@ class App extends Component {
   };
 
   onChange = src => {
-    this.setState({ src });
     global.Tiles.src = src;
   };
 
@@ -115,19 +113,12 @@ class App extends Component {
             <Surface
               width={this.state.width}
               items={this.state.items}
-              colorUp="blue"
-              colorDown="green"
-              src={this.state.src}
               active={this.state.active}
             />
           ) : null}
         </div>
         <div id="codeEditor">
-          <CodeEditor
-            ref={this.codeEditor}
-            onChange={this.onChange}
-            src={this.state.src}
-          />
+          <CodeEditor onChange={this.onChange} src={this.state.src} />
         </div>
       </React.Fragment>
     );

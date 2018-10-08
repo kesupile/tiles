@@ -14,11 +14,6 @@ class TileComponent extends Component {
         }
       }, this.props.coords);
     };
-
-    this.state = {
-      up: undefined,
-      flat: undefined
-    };
   }
 
   componentWillMount() {
@@ -62,11 +57,7 @@ class TileComponent extends Component {
         >
           <div
             ref={n => (global.Tiles.elements[this.props.coords] = n)}
-            className={`innerTile ${
-              typeof this.state.up === "boolean"
-                ? this.state.up ? "colorUp" : "colorDown"
-                : ""
-            }`}
+            className="innerTile"
             data-tileid={this.props.coords}
           />
         </div>
@@ -76,8 +67,13 @@ class TileComponent extends Component {
 }
 
 TileComponent.propTypes = {
-  colorUp: PropTypes.string.isRequired,
-  colorDown: PropTypes.string.isRequired
+  x: PropTypes.number.isRequired,
+  y: PropTypes.number.isRequired,
+  height: PropTypes.number.isRequired,
+  width: PropTypes.number.isRequired,
+  tileObj: PropTypes.object.isRequired,
+  active: PropTypes.bool.isRequired,
+  coords: PropTypes.string.isRequired
 };
 
 export default TileComponent;

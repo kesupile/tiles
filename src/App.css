@@ -1,31 +1,8 @@
-/* @keyframes flipUp {
-  0% {
-    width: 100%;
-  }
-  50% {
-    width: 0%;
-  }
-  100% {
-    width: 100%;
-  }
-}
-
-@keyframes flipDown {
-  0%,
-  100% {
-    width: 100%;
-  }
-  50% {
-    width: 0%;
-  }
-} */
-
 .tile {
   position: absolute;
   display: flex;
   flex-direction: row;
   justify-content: center;
-  /* border: 1px solid black; */
 }
 
 .innerTile {
@@ -44,16 +21,6 @@
 .innerTile.colorDown {
   background-color: #b3cde0;
 }
-
-/* .innerTile.flipUp {
-  -webkit-animation: flipUp 0.1s;
-  animation: flipUp 0.1s;
-}
-
-.innerTile.flipDown {
-  -webkit-animation: flipDown 0.1s;
-  animation: flipDown 0.1s;
-} */
 
 #container {
   position: relative;

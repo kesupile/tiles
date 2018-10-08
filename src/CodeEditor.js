@@ -14,9 +14,8 @@ export default class Editor extends React.Component {
     this.editor = ace.edit("srcCode");
     this.editor.getSession().setMode("ace/mode/javascript");
     this.editor.setTheme("ace/theme/monokai");
-    this.editor.setValue(this.props.src);
+    this.editor.setValue(global.Tiles.src);
     this.editor.on("change", () => this.props.onChange(this.editor.getValue()));
-    global.src = this.props.src;
   }
 
   render() {

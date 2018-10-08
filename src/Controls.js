@@ -1,17 +1,20 @@
 import React, { Component } from "react";
-import { Slider } from "antd";
 import debounce from "debounce";
+import PropTypes from "prop-types";
+import { Slider } from "antd";
 
-let Control = ({ label, control }) => {
+// Create a common structure for all controls
+const Control = ({ label, children }) => {
   return (
     <div className="control-item">
       <div className="control-label">{label}:</div>
-      <div className="control-control">{control}</div>
+      <div className="control-control">{children}</div>
     </div>
   );
 };
 
-export default class Controls extends Component {
+// Controls container
+class Controls extends Component {
   constructor(props) {
     super(props);
 
@@ -42,30 +45,34 @@ export default class Controls extends Component {
         />
         <button onClick={this.props.kill}>Stop</button>
 
-        <Control
-          label="Tile width"
-          control={
-            <Slider
-              defaultValue={this.props.width}
-              min={4}
-              max={200}
-              onChange={this.handleWidth}
-            />
-          }
-        />
+        <Control label="Tile width">
+          <Slider
+            defaultValue={this.props.width}
+            min={4}
+            max={200}
+            onChange={this.handleWidth}
+          />
+        </Control>
 
-        <Control
-          label="Tile count"
-          control={
-            <Slider
-              defaultValue={this.props.items}
-              min={2}
-              max={100}
-              onChange={this.handleCount}
-            />
-          }
-        />
+        <Control label="Tile count">
+          <Slider
+            defaultValue={this.props.items}
+            min={2}
+            max={100}
+            onChange={this.handleCount}
+          />
+        </Control>
       </React.Fragment>
     );
   }
 }
+
+Controls.PropTypes = {
+  active: PropTypes.bool.isRequired,
+  kill: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
+  items: PropTypes.number.isRequired,
+  width: PropTypes.number.isRequired
+};
+
+export default Controls;
