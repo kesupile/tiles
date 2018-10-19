@@ -6,47 +6,70 @@ import debounce from "debounce";
 import Controls from "./Controls";
 import "antd/dist/antd.css";
 
+const colour =
+  "`rgb(${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)})`";
+
 // default patterns
 const src = `
-/** expanding box
-
-(function(e, c){
-    const nextHex = c || 'coral'
+/** expanding box */
+function expandingBox(e, c){
+    const nextHex = c || ${colour}
     const flipNeighbours = (hex) =>
         Object.values(this.neighbours).forEach(n => {
-            if(n && !e.includes(n)) n.flip(e, hex)
+            if(n && !e.includes(n)) n.flipNext(e, hex)
         });
     flipNeighbours(nextHex);
-    e.delay(3, () => flipNeighbours('black'))
-return c || nextHex
-})
-
-*/
+    return c || nextHex
+}
 
 
 /** basic ripple effect */
-(function(e, c, reFlipped){
-const nextHex = c || 'purple'
+function basicRippleEffect(e, c, reFlipped){
+  const nextHex = c || 'purple';
   Object.values(this.neighbours).forEach(n => {
-      if(n && !e.includes(n)) n.flip(e, nextHex, reFlipped)
+    if(n && !e.includes(n)) n.flip(e, nextHex, reFlipped)
   });
-reFlipped = reFlipped ? reFlipped : [];
-!reFlipped.includes(this.coords) && e.delay(4, () => {
-Object.values(this.neighbours).forEach(
-n => {
-if (n && !reFlipped.includes(n.coords)) {
-reFlipped.push(n.coords)
-n.flip(e, 'black', reFlipped)
-}});
-});
-return nextHex
-});`;
+  reFlipped = reFlipped ? reFlipped : [];
+  !reFlipped.includes(this.coords) && e.delay(4, () => {
+    Object.values(this.neighbours).forEach(
+      n => {
+        if (n && !reFlipped.includes(n.coords)) {
+          reFlipped.push(n.coords);
+          n.flipNext(e, 'black', reFlipped)
+        }}
+      );
+    }
+  );
+  return nextHex
+}
+
+/** register your animation function */
+Tiles.register(expandingBox)
+`;
+
+class Tiles {
+  constructor() {
+    this.elements = {};
+    this.tileComponents = {};
+    this.src = src;
+  }
+
+  set = data => {
+    this.register = fn => {
+      typeof fn == "function" && (data.function = fn);
+    };
+  };
+
+  reset = () => {
+    this.register = () => false;
+  };
+}
 
 class App extends Component {
   constructor() {
     super();
 
-    global.Tiles = { elements: {}, tileComponents: {}, src };
+    global.Tiles = new Tiles();
     this.onChange = debounce(this.onChange, 500);
     this.state = {
       active: false,

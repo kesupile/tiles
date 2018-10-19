@@ -45,6 +45,12 @@ class Controls extends Component {
         />
         <button onClick={this.props.kill}>Stop</button>
 
+        <button
+          onClick={e => global.Tiles.elements[`${this.props.width},0`].click(e)}
+        >
+          Benchmark (top left)
+        </button>
+
         <Control label="Tile width">
           <Slider
             defaultValue={this.props.width}

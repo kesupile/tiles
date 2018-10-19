@@ -6,13 +6,19 @@ class TileComponent extends Component {
   constructor(props) {
     super(props);
 
-    this.props.tileObj.flip = (event, hex, ...rest) => {
+    this.props.tileObj.flipNext = (event, hex, ...rest) => {
       event.addToQueue(() => {
         if (this.props.active) {
-          const nextHex = this.props.tileObj.execute(event, hex, ...rest);
-          this.flipTile(nextHex || hex);
+          this.props.tileObj.flipNow(
+            event,
+            this.props.tileObj.execute(event, hex, ...rest) || hex
+          );
         }
       }, this.props.coords);
+    };
+
+    this.props.tileObj.flipNow = (event, hex) => {
+      event.addToFlipNow(() => this.flipTile(hex), this.props.coords);
     };
   }
 
@@ -25,12 +31,13 @@ class TileComponent extends Component {
   }
 
   start = () => {
-    const fn = eval(global.Tiles.src);
-    const event = new Event(this.props.coords, fn);
-    event.setCurrentHex(
-      global.Tiles.elements[this.props.coords].style.backgroundColor
-    );
-    this.props.tileObj.flip(event);
+    const data = {},
+      Tiles = global.Tiles;
+    Tiles.set(data);
+    eval('"use strict";\n' + global.Tiles.src);
+    Tiles.reset();
+    const event = new Event(this.props.coords, data.function);
+    this.props.tileObj.flipNext(event);
     event.startFrames(1);
   };
 
