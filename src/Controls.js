@@ -73,7 +73,7 @@ class Controls extends Component {
   }
 }
 
-Controls.PropTypes = {
+Controls.propTypes = {
   active: PropTypes.bool.isRequired,
   kill: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,

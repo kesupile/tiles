@@ -1,3 +1,7 @@
+body {
+  overflow-y: hidden;
+}
+
 .tile {
   position: absolute;
   display: flex;
@@ -5,33 +9,16 @@
   justify-content: center;
 }
 
-.innerTile {
-  width: 100%;
-  height: 100%;
-}
-
-.innerTile.flipper {
-  width: 100%;
-}
-
-.innerTile.colorUp {
-  background-color: #002857;
-}
-
-.innerTile.colorDown {
-  background-color: #b3cde0;
-}
-
 #container {
   position: relative;
   display: flex;
-  height: 100vh;
-  width: 100vw;
   flex-direction: column;
+  justify-content: center;
+  height: 100%;
 }
 
 #root {
-  height: 100%;
+  height: 84vh;
   width: 100%;
   display: flex;
 }
@@ -40,31 +27,26 @@
   height: 100%;
   position: relative;
   width: 45%;
-  border: 1px solid black;
   z-index: 1;
 }
 
 #codeEditor {
-  height: 100%;
-  width: 55%;
+  height: 100% !important;
+  width: 55% !important;
   border: 1px solid black;
-}
-
-#editor {
-  position: absolute;
-  width: 500px;
-  height: 400px;
+  position: relative;
 }
 
 #operationsContainer {
   position: fixed;
   z-index: 100;
   padding: 20px;
-  bottom: 0;
+  /* bottom: 0; */
   flex-direction: column;
   justify-content: center;
   width: 300px;
   background-color: beige;
+  visibility: hidden;
 }
 
 #activeState {

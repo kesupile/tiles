@@ -11,9 +11,26 @@ const colour =
 
 // default patterns
 const src = `
+const getRandomColour = () => \n${colour};
+
+/** go down then across */
+function cascadeAccross(e,c, shouldReflip){
+    const nextHex = c || getRandomColour();
+    if (shouldReflip || e.triggerCoords === this.coords){
+        const bottomTile = this.neighbours['x,y+1'];
+        const bottomPlusOne =  bottomTile && bottomTile.neighbours['x,y+1'];
+        const bottomPlusTwo = bottomPlusOne && bottomPlusOne.neighbours['x,y+1']
+        bottomTile && bottomTile.flipNext(e,nextHex);
+        bottomPlusOne && bottomPlusOne.flipNext(e, nextHex)
+        bottomPlusTwo && bottomPlusTwo.flipNext(e, nextHex, true)
+    }
+    return nextHex;
+}
+
+
 /** expanding box */
 function expandingBox(e, c){
-    const nextHex = c || ${colour}
+    const nextHex = c || getRandomColour()
     const flipNeighbours = (hex) =>
         Object.values(this.neighbours).forEach(n => {
             if(n && !e.includes(n)) n.flipNext(e, hex)
@@ -27,7 +44,7 @@ function expandingBox(e, c){
 function basicRippleEffect(e, c, reFlipped){
   const nextHex = c || 'purple';
   Object.values(this.neighbours).forEach(n => {
-    if(n && !e.includes(n)) n.flip(e, nextHex, reFlipped)
+    if(n && !e.includes(n)) n.flipNext(e, nextHex, reFlipped)
   });
   reFlipped = reFlipped ? reFlipped : [];
   !reFlipped.includes(this.coords) && e.delay(4, () => {
@@ -44,7 +61,7 @@ function basicRippleEffect(e, c, reFlipped){
 }
 
 /** register your animation function */
-Tiles.register(expandingBox)
+Tiles.register(cascadeAccross)
 `;
 
 class Tiles {
@@ -71,9 +88,9 @@ class App extends Component {
 
     global.Tiles = new Tiles();
     this.onChange = debounce(this.onChange, 500);
+
     this.state = {
       active: false,
-      up: true,
       flat: false,
       items: 100,
       calculating: true
@@ -89,9 +106,12 @@ class App extends Component {
   }
 
   calculate = state => {
-    let parent = document.querySelector("#tileSurface");
-    let w = parent.getBoundingClientRect().width;
-    return Math.floor((w - 20) / (state || this.state).items);
+    const parentDimensions = document
+      .querySelector("#tileSurface")
+      .getBoundingClientRect();
+    const w = Math.min(parentDimensions.width, parentDimensions.height);
+    console.log(w, "width");
+    return Math.floor(w / (state || this.state).items);
   };
 
   onChange = src => {

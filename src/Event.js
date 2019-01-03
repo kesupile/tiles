@@ -1,5 +1,6 @@
 export default class Event {
   constructor(triggerCoords, srcFn) {
+    this.triggerCoords = triggerCoords;
     this.flipped = { [triggerCoords]: true };
     this._srcFn = srcFn;
     this.queue = [];
