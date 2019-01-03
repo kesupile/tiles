@@ -12,7 +12,12 @@ class Surface extends Component {
     let y = 0;
     while (y < max) {
       const coords = [x, y].join(",");
-      tiles[coords] = new TileObject(coords);
+      tiles[coords] = new TileObject(
+        coords,
+        y === 0,
+        x === max,
+        y === max - props.width
+      );
       if (x === max) {
         x = props.width;
         y += props.width;

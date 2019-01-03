@@ -42,7 +42,7 @@ function expandingBox(e, c){
 
 /** basic ripple effect */
 function basicRippleEffect(e, c, reFlipped){
-  const nextHex = c || 'purple';
+  const nextHex = c || getRandomColour();
   Object.values(this.neighbours).forEach(n => {
     if(n && !e.includes(n)) n.flipNext(e, nextHex, reFlipped)
   });
@@ -110,8 +110,7 @@ class App extends Component {
       .querySelector("#tileSurface")
       .getBoundingClientRect();
     const w = Math.min(parentDimensions.width, parentDimensions.height);
-    console.log(w, "width");
-    return Math.floor(w / (state || this.state).items);
+    return Math.ceil(w / (state || this.state).items);
   };
 
   onChange = src => {
@@ -119,7 +118,7 @@ class App extends Component {
   };
 
   handleControlChange = obj => {
-    let nextState = Object.assign({}, this.state, obj);
+    const nextState = Object.assign({}, this.state, obj);
     this.setState({ calculating: true });
     setTimeout(() => {
       this.setState(

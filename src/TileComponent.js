@@ -55,7 +55,7 @@ class TileComponent extends Component {
         <div
           key={this.props.coords}
           ref={n => (global.Tiles.elements[this.props.coords] = n)}
-          className="tile"
+          className={"tile " + this.props.tileObj.classList}
           data-tileid={this.props.coords}
           style={{
             top: this.props.y,

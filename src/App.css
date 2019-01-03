@@ -9,6 +9,16 @@ body {
   justify-content: center;
 }
 
+.topBorder {
+  border-top: 1px solid black;
+}
+.rightBorder {
+  border-right: 1px solid black;
+}
+.bottomBorder {
+  border-bottom: 1px solid black;
+}
+
 #container {
   position: relative;
   display: flex;
