@@ -54,20 +54,16 @@ class TileComponent extends Component {
       <React.Fragment>
         <div
           key={this.props.coords}
+          ref={n => (global.Tiles.elements[this.props.coords] = n)}
           className="tile"
+          data-tileid={this.props.coords}
           style={{
             top: this.props.y,
             width: this.props.width,
             height: this.props.height,
             left: this.props.x - this.props.width
           }}
-        >
-          <div
-            ref={n => (global.Tiles.elements[this.props.coords] = n)}
-            className="innerTile"
-            data-tileid={this.props.coords}
-          />
-        </div>
+        />
       </React.Fragment>
     );
   }
