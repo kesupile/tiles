@@ -11,16 +11,8 @@ export default class Tile {
       .join(" ");
   }
 
-  setDisplayTile(component) {
-    this.displayTile = component;
-  }
-
   registerNeighbours(neighbours) {
     this.neighbours = neighbours;
-  }
-
-  deleteDisplayTile() {
-    delete this.displayTile;
   }
 
   mapNeighbours(fn) {

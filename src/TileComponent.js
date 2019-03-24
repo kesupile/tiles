@@ -11,27 +11,24 @@ class TileComponent extends Component {
       event.addToQueue(() => {
         if (this.props.active) {
           const strHex = this.props.tileObj.execute(event, hex, ...rest);
-          this.flipTile(typeof strHex === "string" ? strHex : hex || "black");
+          window.requestAnimationFrame(() =>
+            this.flipTile(typeof strHex === "string" ? strHex : hex || "black")
+          );
         }
       }, this.props.coords);
     };
   }
 
-  componentWillMount() {
-    this.props.tileObj.setDisplayTile(this);
-  }
-
-  componentWillUnmount() {
-    this.props.tileObj.deleteDisplayTile();
-  }
-
   start = () => {
-    const data = {};
+    const params = {};
     const Tiles = global.Tiles;
-    Tiles.set(data);
+
+    /** Adding data to the global namespace */
+    Tiles.set(params);
     eval('"use strict";\n' + global.Tiles.src);
+
     Tiles.reset();
-    const event = new Event(this.props.coords, data.function);
+    const event = new Event(this.props.coords, params.function);
     this.props.tileObj.flipNext(event);
     event.startFrames(1);
   };
@@ -46,20 +43,18 @@ class TileComponent extends Component {
 
   render() {
     return (
-      <React.Fragment>
-        <div
-          key={this.props.coords}
-          ref={n => (global.Tiles.elements[this.props.coords] = n)}
-          className={"tile " + this.props.tileObj.classList}
-          data-tileid={this.props.coords}
-          style={{
-            top: this.props.y,
-            width: this.props.width,
-            height: this.props.height,
-            left: this.props.x - this.props.width
-          }}
-        />
-      </React.Fragment>
+      <div
+        key={this.props.coords}
+        ref={n => (global.Tiles.elements[this.props.coords] = n)}
+        className={"tile " + this.props.tileObj.classList}
+        data-tileid={this.props.coords}
+        style={{
+          top: this.props.y,
+          width: this.props.width,
+          height: this.props.height,
+          left: this.props.x - this.props.width
+        }}
+      />
     );
   }
 }

@@ -13,27 +13,34 @@ const colour =
 const src = `
 const getRandomColour = () => \n${colour};
 
-const flipNext = (node, direction, count, e, hex) => {
+const flipNext = (node, direction, count, e, c, c2, hex) => {
     if (count === 0) return
 
     const nextNode = node.neighbours[direction]
     if(nextNode && !e.includes(nextNode)) {
-        nextNode.flipNext(e, hex, count === 1);
-        return flipNext(nextNode, direction, count -1, e, hex)
+        nextNode.flipNext(e, c, c2, count === 1, hex);
+        return flipNext(nextNode, direction, count -1, e, c, c2, hex)
     }
 }
 
 /** go down then across */
-const cascadeAccross = (node, e, c, shouldReflip) => {
-    const nextHex = c || getRandomColour();
+const hatch = (node, e, c, c2, shouldReflip, hex) => {
+    c = c || getRandomColour();
+    c2 = c2 || getRandomColour();
+    hex = hex || c
+
     if (shouldReflip || e.triggerCoords === node.coords){
-        flipNext(node, 'x+1,y', 10, e, nextHex)
+        flipNext(node, 'x+1,y', 3, e, c, c2, c);
+        flipNext(node, 'x,y+1', 3, e, c, c2, c2);
+        flipNext(node, 'x-1,y', 3, e, c, c2, c);
+        flipNext(node, 'x,y-1', 3, e, c, c2, c2);
     }
-    return nextHex;
+
+    return hex
 }
 
 /** register your animation function */
-Tiles.register(cascadeAccross)
+Tiles.register(hatch)
 `;
 
 class Tiles {
@@ -45,7 +52,11 @@ class Tiles {
 
   set = data => {
     this.register = fn => {
-      typeof fn == "function" && (data.function = fn);
+      if (typeof fn == "function") {
+        Object.defineProperty(data, "function", {
+          value: fn
+        });
+      }
     };
   };
 
