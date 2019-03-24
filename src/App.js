@@ -23,7 +23,7 @@ const flipNext = (node, direction, count, e, c, c2, hex) => {
     }
 }
 
-/** go down then across */
+/** Create a series of squares */
 const hatch = (node, e, c, c2, shouldReflip, hex) => {
     c = c || getRandomColour();
     c2 = c2 || getRandomColour();
