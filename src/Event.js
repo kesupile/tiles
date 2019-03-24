@@ -3,7 +3,6 @@ export default class Event {
     this.triggerCoords = triggerCoords;
     this.flipped = { [triggerCoords]: true };
     this._srcFn = srcFn;
-    this.queue = [];
     this.nextQueue = [];
     this.delayedFrameCallbacks = {};
     this.flipNowQueue = [];
@@ -57,12 +56,12 @@ export default class Event {
     }
 
     // handle ordinary queue first
-    this.queue = this.nextQueue;
+    const queue = this.nextQueue;
     this.nextQueue = [];
-    let fn = this.queue.shift();
+    let fn = queue.shift();
     while (typeof fn === "function") {
       fn();
-      fn = this.queue.shift();
+      fn = queue.shift();
     }
 
     // handle delayed frames next
