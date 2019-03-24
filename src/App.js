@@ -13,51 +13,23 @@ const colour =
 const src = `
 const getRandomColour = () => \n${colour};
 
+const flipNext = (node, direction, count, e, hex) => {
+    if (count === 0) return
+
+    const nextNode = node.neighbours[direction]
+    if(nextNode && !e.includes(nextNode)) {
+        nextNode.flipNext(e, hex, count === 1);
+        return flipNext(nextNode, direction, count -1, e, hex)
+    }
+}
+
 /** go down then across */
-function cascadeAccross(e,c, shouldReflip){
+const cascadeAccross = (node, e, c, shouldReflip) => {
     const nextHex = c || getRandomColour();
-    if (shouldReflip || e.triggerCoords === this.coords){
-        const bottomTile = this.neighbours['x,y+1'];
-        const bottomPlusOne =  bottomTile && bottomTile.neighbours['x,y+1'];
-        const bottomPlusTwo = bottomPlusOne && bottomPlusOne.neighbours['x,y+1']
-        bottomTile && bottomTile.flipNext(e,nextHex);
-        bottomPlusOne && bottomPlusOne.flipNext(e, nextHex)
-        bottomPlusTwo && bottomPlusTwo.flipNext(e, nextHex, true)
+    if (shouldReflip || e.triggerCoords === node.coords){
+        flipNext(node, 'x+1,y', 10, e, nextHex)
     }
     return nextHex;
-}
-
-
-/** expanding box */
-function expandingBox(e, c){
-    const nextHex = c || getRandomColour()
-    const flipNeighbours = (hex) =>
-        Object.values(this.neighbours).forEach(n => {
-            if(n && !e.includes(n)) n.flipNext(e, hex)
-        });
-    flipNeighbours(nextHex);
-    return c || nextHex
-}
-
-
-/** basic ripple effect */
-function basicRippleEffect(e, c, reFlipped){
-  const nextHex = c || getRandomColour();
-  Object.values(this.neighbours).forEach(n => {
-    if(n && !e.includes(n)) n.flipNext(e, nextHex, reFlipped)
-  });
-  reFlipped = reFlipped ? reFlipped : [];
-  !reFlipped.includes(this.coords) && e.delay(4, () => {
-    Object.values(this.neighbours).forEach(
-      n => {
-        if (n && !reFlipped.includes(n.coords)) {
-          reFlipped.push(n.coords);
-          n.flipNext(e, 'black', reFlipped)
-        }}
-      );
-    }
-  );
-  return nextHex
 }
 
 /** register your animation function */

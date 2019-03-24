@@ -6,19 +6,14 @@ class TileComponent extends Component {
   constructor(props) {
     super(props);
 
+    /** Define a fn to add to the animation queue */
     this.props.tileObj.flipNext = (event, hex, ...rest) => {
       event.addToQueue(() => {
         if (this.props.active) {
-          this.props.tileObj.flipNow(
-            event,
-            this.props.tileObj.execute(event, hex, ...rest) || hex
-          );
+          const strHex = this.props.tileObj.execute(event, hex, ...rest);
+          this.flipTile(typeof strHex === "string" ? strHex : hex || "black");
         }
       }, this.props.coords);
-    };
-
-    this.props.tileObj.flipNow = (event, hex) => {
-      event.addToFlipNow(() => this.flipTile(hex), this.props.coords);
     };
   }
 
@@ -31,8 +26,8 @@ class TileComponent extends Component {
   }
 
   start = () => {
-    const data = {},
-      Tiles = global.Tiles;
+    const data = {};
+    const Tiles = global.Tiles;
     Tiles.set(data);
     eval('"use strict";\n' + global.Tiles.src);
     Tiles.reset();

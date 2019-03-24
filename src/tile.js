@@ -23,9 +23,13 @@ export default class Tile {
     delete this.displayTile;
   }
 
+  mapNeighbours(fn) {
+    return Object.values(this.neighbours).map(fn);
+  }
+
   execute(event, hex, ...rest) {
     try {
-      return (event._srcFn || (() => true)).call(this, event, hex, ...rest);
+      return (event._srcFn || (() => true))(this, event, hex, ...rest);
     } catch (e) {
       console.log("....error..", e);
     }

@@ -37,6 +37,7 @@ export default class Event {
   };
 
   delay = (frameDelay, fn) => {
+    /** @@NOTE: might we not want to add the element to the queue as soon as the delayed callback has been executed?? */
     const targetFrame = this.frame + frameDelay;
     if (this.delayedFrameCallbacks.hasOwnProperty(targetFrame)) {
       this.delayedFrameCallbacks[targetFrame].push(fn);
@@ -71,10 +72,8 @@ export default class Event {
       delayedFn();
       delayedFn = delayedQueue.shift();
     }
-    delete this.delayedFrameCallbacks[n];
 
-    this.flipNowQueue.forEach(flip => flip());
-    this.flipNowQueue = [];
+    delete this.delayedFrameCallbacks[n];
 
     this.startFrames(n + 1);
   };

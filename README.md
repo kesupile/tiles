@@ -1,4 +1,4 @@
-# tiles
+# Tiles
 
 Cool little animation builder
 
@@ -6,14 +6,61 @@ Cool little animation builder
 
 1.  [Concept](#concept)
 2.  [API](#api)
-    2.1. [Registering an Animation](#registering-an-animation)
-    2.2. [Animation Function](#animation-function)
-    2.3. [Event Object](#event-object)
-    2.4. [Tile Object](#tile-object)
+    2.1. [Tile Surface](#tile-surface)
+    2.2. [Registering an Animation](#registering-an-animation)
+    2.3. [Animation Function](#animation-function)
+    2.4. [Event Object](#event-object)
+    2.5. [Tile Object](#tile-object)
+
+# Concept
+
+The module is composed of two elements: the tile-surface and the code-editor.
+
+The tile-surface is composed of a series of tiles in a square grid. When any tile on the grid is clicked, that tile will flip.
+
+In the code-editor you define a function that will be executed every time a tile is flipped: this function can do a number of things, including flipping other tiles! And so, we have the perfect conditions to create interesting patterns 👌.
+
+**INSERT DIAGRAM HERE**
+
+## Tile Surface
+
+Every tile is a square with customisable dimensions. The exact width and height of the tiles are determined by the parameters set as the [boundary conditions](#boundary-conditions). If the tile currently being flipped has coordinates **x,y**, then the tiles surrounding it will have different coordinates depending on their relative distance from **x,y**.
+
+![Center tile is the tile currently being flipped. Tiles surrounding it have different coordinates depending on their relative position](./grid-coords.PNG)
+
+# API
+
+## Registering an Animation
+
+Register your animation function by calling `Tiles.register`.
+
+```javascript
+/** Define your animation function */
+const myAnimation => (currentTile, event, colour) => {
+  // awesome animation logic here ✨
+}
+
+/** Register your function */
+Tiles.register(myAnimation);
+```
 
 ## Animation Function
 
-Here we add some information about the context of the animation function which is an [Event Object](#event-object)
+The animation function will be executed on every flip and should be used to calculate which tiles should be flipped next. This callback receives 3 arguments:
+
+1.  `currentTile`: The tile currently being flipped
+2.  `event`: The [event](#event-object) that triggered this animation
+
+The `currentTile` colour will be set to whatever string is returned by the function.
+
+```javascript
+/**
+ * This will set the colour of the tile that triggered the animation to "#b7b745"
+ */
+const myAnimation = () => "#b7b745";
+
+Tiles.register(myAnimation);
+```
 
 ## Event Object
 
