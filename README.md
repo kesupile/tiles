@@ -5,18 +5,19 @@ Cool little animation builder.
 **TODO**:
 
 1.  Finish documentation
-2.  Make app smaller and host it
+2.  Make app smaller and host it to avoid having to run a local build
 3.  Styling
 
 # Contents
 
 1.  [Concept](#concept)
-2.  [API](#api)
-    2.1. [Tile Surface](#tile-surface)
-    2.2. [Registering an Animation](#registering-an-animation)
-    2.3. [Animation Function](#animation-function)
-    2.4. [Event Object](#event-object)
-    2.5. [Tile Object](#tile-object)
+2.  [Setup](#setup)
+3.  [API](#api)
+    3.1. [Tile Surface](#tile-surface)
+    3.2. [Registering an Animation](#registering-an-animation)
+    3.3. [Animation Function](#animation-function)
+    3.4. [Event Object](#event-object)
+    3.5. [Tile Object](#tile-object)
 
 # Concept
 
@@ -35,6 +36,31 @@ Every tile is a square with customisable dimensions. The exact width and height 
 ![Center tile is the tile currently being flipped. Tiles surrounding it have different coordinates depending on their relative position](./grid-coords.PNG)
 
 **Figure B**
+
+# Setup
+
+Requirements:
+
+1.  node
+2.  yarn
+
+Clone the repo
+
+```
+git clone https://github.com/kesupile/tiles.git
+```
+
+Install dependencies
+
+```
+yarn install
+```
+
+Start the application
+
+```
+yarn start
+```
 
 # API
 
