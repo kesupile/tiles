@@ -1,6 +1,12 @@
 # Tiles
 
-Cool little animation builder
+Cool little animation builder.
+
+**TODO**:
+
+1.  Finish documentation
+2.  Make app smaller and host it
+3.  Styling
 
 # Contents
 
@@ -28,6 +34,8 @@ Every tile is a square with customisable dimensions. The exact width and height 
 
 ![Center tile is the tile currently being flipped. Tiles surrounding it have different coordinates depending on their relative position](./grid-coords.PNG)
 
+**Figure B**
+
 # API
 
 ## Registering an Animation
@@ -36,9 +44,9 @@ Register your animation function by calling `Tiles.register`.
 
 ```javascript
 /** Define your animation function */
-const myAnimation => (currentTile, event, colour) => {
+const myAnimation = (currentTile, event, colour) => {
   // awesome animation logic here ✨
-}
+};
 
 /** Register your function */
 Tiles.register(myAnimation);
@@ -80,4 +88,4 @@ Add some information explaining what a tile object is
 
 | key        | type     | return | description                                                                                                                                                                   |
 | ---------- | -------- | ------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| neighbours | `object` | N/A    | A object with pointers to the tile objects that border the tile in question. The pointers are indexed according to their relative position to the tile in question (Figure A) |
+| neighbours | `object` | N/A    | A object with pointers to the tile objects that border the tile in question. The pointers are indexed according to their relative position to the tile in question (Figure B) |
